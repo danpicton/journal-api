@@ -53,4 +53,20 @@ class DbConnection:
         )
 
         return self.c.fetchall()
-        # print("pook: " + str(self.c.fetchone()))
+
+    def get_log_entry(self, log_stamp: int):
+        self.c.execute(
+            """
+            select 
+                log_stamp,
+                log_type,
+                log_source,
+                log_entry
+            from
+                log_table
+            where
+                log_stamp = {0}
+            """.format(log_stamp)
+        )
+
+        return self.c.fetchall()
