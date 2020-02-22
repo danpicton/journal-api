@@ -9,11 +9,11 @@ class DbConnection:
 
     def create_log_table(self):
 
-        self.c.execute('drop table log_table;')
+        # self.c.execute('drop table log_table;')
 
         self.c.execute(
             """
-            CREATE TABLE log_table (
+            CREATE TABLE IF NOT EXISTS log_table (
                 id integer primary key,
                 log_stamp integer unique,
                 log_type text,
@@ -23,7 +23,7 @@ class DbConnection:
             """
         )
 
-    def make_log_entry(self, log_stamp: str, source: str, log_type: str, log_entry: str):
+    def make_log_entry(self, log_stamp: int, source: str, log_type: str, log_entry: str):
         self.c.execute(
             """
             INSERT INTO log_table (
@@ -52,8 +52,5 @@ class DbConnection:
             """.format(low_stamp, high_stamp)
         )
 
-        print("pook: " + str(self.c.fetchone()))
-
-a = DbConnection()
-a.make_log_entry(123, "blah2", "blah3", "blah4")
-a.get_log_range(120, 125)
+        return self.c.fetchall()
+        # print("pook: " + str(self.c.fetchone()))
