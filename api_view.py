@@ -1,21 +1,20 @@
 import flask
 from flask import request, jsonify
+import mid_logic
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-
-animals = [
-    {"id": 1, "owl": "hooter"},
-    {"id": 2, "cat": "meowface"},
-    {"id": 3, "dog": "woofle"}]
 
 @app.route("/", methods=["GET"])
 def home():
     return "<H1>I am a cat</H1>"
 
-@app.route("/animals", methods=["GET"])
-def animals_page():
-    return jsonify(animals)
+@app.route("/logs", methods=["GET"])
+def log_range_page():
+    j = mid_logic.JournalSevrice()
+    a = request.args
+    # j.log_range(params["low_stamp"], params["high_stamp"])
+    return jsonify(j.log_range(request.args["low_stamp"], request.args["high_stamp"]))
 
 @app.route("/animal", methods=["GET"])
 def one_animal():
