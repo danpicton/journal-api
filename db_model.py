@@ -3,8 +3,15 @@ import sqlite3
 class DbConnection:
     def __init__(self):
         self.conn = sqlite3.connect("pank.db")
+        self.conn.row_factory = self.dict_factory
         self.c = self.conn.cursor()
         self.create_log_table()
+
+    def dict_factory(self, cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
 
 
     def create_log_table(self):
