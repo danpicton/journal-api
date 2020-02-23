@@ -9,12 +9,13 @@ app.config["DEBUG"] = True
 def home():
     return "<H1>I am a cat</H1>"
 
-@app.route("/logs", methods=["GET"])
+@app.route("/logs/", methods=["GET"])
 def log_range_page():
+
     j = mid_logic.JournalSevrice()
-    a = request.args
-    # j.log_range(params["low_stamp"], params["high_stamp"])
-    return jsonify(j.log_range(request.args["low_stamp"], request.args["high_stamp"]))
+
+    results = jsonify(j.log_range(request.args["low_stamp"], request.args["high_stamp"]))
+    return results
 
 @app.route("/animal", methods=["GET"])
 def one_animal():
